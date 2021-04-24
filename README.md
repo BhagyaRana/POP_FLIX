@@ -29,7 +29,18 @@ For DataBase Part:
 
 1.) You need to Go to PHPMyAdmin First
 
-2.) Then Need to Import 2 Scripts Namely,
+
+2.) 
+
+Method 1:
+
+-Just Import the Script named 'popflix_dbms.sql' in sql Folder in PHPMyAdmin
+
+OR
+
+Method 2:
+
+Then Need to Import 2 Scripts Namely,
 
 - tables.sql
 
