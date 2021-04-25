@@ -65,7 +65,7 @@ const filterMovieData = (movies) => {
 exports.getFlixProfile = async (req, res, next) => {
   try {
     let movies = await query(
-      `SELECT name,m_id FROM movies WHERE release_date < CURDATE() ORDER BY release_date DESC LIMIT 15;`
+      `SELECT name,m_id FROM movies WHERE release_date < CURDATE() ORDER BY release_date DESC;`
     );
     let mov = await query(
       `SELECT * from movies where m_id IN (select m_id from shows where t_id=${req.user.theater_id});`
