@@ -5,7 +5,7 @@
   <strong>One Stop Destination for Movie Booking</strong>
 </div>
 
-# PopFlix = Pop ~~corn~~ + ~~Net~~ Flix  
+# PopFlix = __Pop__ ~~corn~~ + ~~Net~~ Flix  
 
 - This Website helps Users to Search Theatre, Movies and Book Tickets in Just 3 Clicks.
 - Theatre Owner can Add the New Movies in his Theatre,Show Timing & Fee
