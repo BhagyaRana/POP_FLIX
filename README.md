@@ -1,11 +1,11 @@
 <div align="center">
   <br>
-  <img alt="SUDOKU SOLVER" src="https://i.ibb.co/fvBQ6nC/popflix-logo.png" alt="popflix-logo" width="300px">
+  <img alt="PopFlix" src="https://i.ibb.co/fvBQ6nC/popflix-logo.png" alt="popflix-logo" width="300px">
   <h1>🎥 PopFlix 🎦</h1>
   <strong>One Stop Destination for Movie Booking</strong>
 </div>
 
-# PopFlix = __Pop__ ~~corn~~ + ~~Net~~ Flix  
+<h1> PopFlix = <u>Pop</u> corn + Net <u>Flix</u> </h1>
 
 - This Website helps Users to Search Theatre, Movies and Book Tickets in Just 3 Clicks.
 - Theatre Owner can Add the New Movies in his Theatre,Show Timing & Fee
@@ -42,7 +42,6 @@
 -For DataBase Part:
 
 1.) You need to Go to PHPMyAdmin First
-
 2.) Import Script 
 
 -Just Import the Script named 'new_final_popflix.sql' in sql Folder in PHPMyAdmin
@@ -100,6 +99,6 @@
 
 ## 🤝 Contributing
 
-We encourage you to contribute to Sudoku Solver for Further Improvement! Please check out the [Contributing guide](/CONTRIBUTING.md) for guidelines about how to proceed.
+We encourage you to contribute to PopFlix for Further Improvement! Please check out the [Contributing guide](/CONTRIBUTING.md) for guidelines about how to proceed.
 
 
