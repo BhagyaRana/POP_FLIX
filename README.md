@@ -5,7 +5,7 @@
   <strong>One Stop Destination for Movie Booking</strong>
 </div>
 
-# PopFlix = <i>Pop<\i>corn + Net<i>Flix<\i>  
+# PopFlix = <u>Pop</u> corn + Net <u>Flix</u>  
 
 - This Website helps Users to Search Theatre, Movies and Book Tickets in Just 3 Clicks.
 - Theatre Owner can Add the New Movies in his Theatre,Show Timing & Fee
