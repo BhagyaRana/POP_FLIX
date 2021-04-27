@@ -13,7 +13,7 @@ exports.getBookFlix = async (req, res, next) => {
       indx = indx + 1;
     }
 
-    let dropRegions = await query(`SELECT Location FROM theater;`);
+    let dropRegions = await query(`SELECT * from locationTheater`);
     return res.render('Bookings/flix', {
       pg: 'book_flix',
       user: req.user,
@@ -29,23 +29,13 @@ exports.getBookFlix = async (req, res, next) => {
 exports.searchFlix = async (req, res) => {
   try {
     const theaterName = req.body.searchmovie;
-    const theaterLocation = req.body.region;
+    var theaterLocation = req.body.region;
     let dropRegions = await query(`SELECT Location FROM theater;`);
 
     let theaters = {};
-    if (req.body.region == 'Region') {
-      theaters = await query(
-        `SELECT * FROM theater WHERE name LIKE '%${theaterName}%';`
-      );
-    } else if (req.body.searchmovie == '') {
-      theaters = await query(
-        `SELECT * FROM theater AS t WHERE location='${theaterLocation}'  ORDER BY t.rating;`
-      );
-    } else {
-      theaters = await query(
-        `SELECT * FROM theater AS t WHERE name LIKE '%${theaterName}%' AND t.location='${theaterLocation}' GROUP BY t.location ORDER BY t.rating;`
-      );
-    }
+    if (theaterLocation == 'Region') theaterLocation = '%';
+    theaters = await query(`CALL flixSearch('${theaterName}','${theaterLocation}');`);
+    theaters = theaters[0];
     let indx = 0;
     while (indx < theaters.length) {
       let movies = await query(
@@ -100,8 +90,8 @@ exports.getMovieFlix = async (req, res) => {
       );
       mov[x].actors = actors;
     }
-    let dropLanguage = await query(`SELECT DISTINCT LANGUAGE FROM movies;`);
-    let dropGenre = await query(`SELECT DISTINCT Genre FROM genre;`);
+    let dropLanguage = await query(`SELECT * FROM languageMovie;`);
+    let dropGenre = await query(`SELECT * FROM genre_view;`);
 
     let indx = 0;
     while (indx < dropLanguage.length) {
@@ -135,8 +125,8 @@ exports.searchMovie = async (req, res) => {
     let movieName = req.body.searchMovie;
     let language = req.body.lang;
     let genre = req.body.genre;
-    let dropLanguage = await query(`SELECT DISTINCT LANGUAGE FROM movies;`);
-    let dropGenre = await query(`SELECT DISTINCT Genre FROM genre;`);
+    let dropLanguage = await query('SELECT * FROM languageMovie;');
+    let dropGenre = await query(`SELECT * FROM genre_view;`); 
     let indx = 0;
     while (indx < dropLanguage.length) {
       let x = dropLanguage[indx].LANGUAGE;
@@ -147,47 +137,16 @@ exports.searchMovie = async (req, res) => {
     }
 
     let mov = {};
-    if (language == 'Language' && genre == 'Genre') {
-      mov = await query(
-        `SELECT * FROM movies WHERE name LIKE '%${movieName}%';`
-      );
-    } else if (movieName == '' && genre == 'Genre') {
-      if (language == 'English') language = 'EN';
-      else if (language == 'Hindi') language = 'Hi';
-      else language = 'Ma';
-      mov = await query(`SELECT * FROM movies WHERE language='${language}';`);
-    } else if (movieName == '' && language == 'Language') {
-      mov = await query(
-        `SELECT * FROM movies AS m WHERE m.m_id IN (SELECT m_id from genre where genre='${genre}');`
-      );
-    } else if (genre == 'Genre') {
-      if (language == 'English') language = 'EN';
-      else if (language == 'Hindi') language = 'Hi';
-      else language = 'Ma';
-      mov = await query(
-        `SELECT * FROM movies WHERE name LIKE '%${movieName}%' AND language='${language}';`
-      );
-    } else if (movieName == '') {
-      if (language == 'English') language = 'EN';
-      else if (language == 'Hindi') language = 'Hi';
-      else language = 'Ma';
-      mov = await query(
-        `SELECT * FROM movies AS m WHERE m.language='${language}' AND m.m_id IN (SELECT m_id from genre where genre='${genre}');`
-      );
-    } else if (language == 'Language') {
-      mov = await query(
-        `SELECT * FROM movies AS m WHERE m.name LIKE '%${movieName}%' AND m.m_id IN (SELECT m_id from genre where genre='${genre}');`
-      );
-    } else {
-      if (language == 'English') language = 'EN';
-      else if (language == 'Hindi') language = 'Hi';
-      else language = 'Ma';
-      mov = await query(
-        `SELECT * FROM movies AS m WHERE m.name LIKE '%${movieName}%' AND m.language='${language}' AND m.m_id IN (SELECT m_id from genre where genre='${genre}');`
-      );
-    }
-
-    mov = filterMovieData(mov);
+    if (language == 'English') language = 'EN';
+    else if (language == 'Hindi') language = 'Hi';
+    else if (language == 'Marathi') language = 'Ma';
+    else language = '%'
+    if (movieName == '') movieName = '%';
+    if (genre == '') genre = '%';
+    mov = await query(
+      `CALL movieSearch('${movieName}','${language}', '${genre}');`
+    );
+    mov = filterMovieData(mov[0]);
     for (x in mov) {
       let actors = await query(
         `SELECT name from person where p_id IN (select p_id from acted_in where m_id=${mov[x].m_id});`
